@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 const App = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [status, setStatus] = useState('idle'); // idle | loading | success | error
+  const [status, setStatus] = useState('idle'); // idle | loading | success | error | duplicate
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +21,12 @@ const App = () => {
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
         },
-      })  
+      })
+
+      if (res.status === 409) {
+        setStatus('duplicate');
+        return;
+      }
 
       if (!res.ok) throw new Error('Request failed');
 
@@ -107,6 +112,9 @@ const App = () => {
 
         {status === 'success' && (
           <Typography color="success.main">You're on the list!</Typography>
+        )}
+        {status === 'duplicate' && (
+          <Typography color="warning.main">You're already on the waitlist!</Typography>
         )}
         {status === 'error' && (
           <Typography color="error.main">Something went wrong. Try again.</Typography>
