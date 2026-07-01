@@ -8,11 +8,13 @@ import Box from '@mui/material/Box';
 const App = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [status, setStatus] = useState('idle'); // idle | loading | success | error | duplicate
+  const [status, setStatus] = useState('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('loading');
+    setErrorMessage('');
 
     try {
       const res = await fetch('https://brush-it-off.onrender.com/api/waitlist', {
@@ -23,18 +25,20 @@ const App = () => {
         },
       })
 
-      if (res.status === 409) {
-        setStatus('duplicate');
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        setErrorMessage(data?.error || 'Something went wrong. Try again.');
+        setStatus('error');
         return;
       }
-
-      if (!res.ok) throw new Error('Request failed');
 
       setStatus('success');
       setName('');
       setEmail('');
     } catch (err) {
       console.error(err);
+      setErrorMessage('Something went wrong. Try again.');
       setStatus('error');
     }
   };
@@ -113,11 +117,8 @@ const App = () => {
         {status === 'success' && (
           <Typography color="success.main">You're on the list!</Typography>
         )}
-        {status === 'duplicate' && (
-          <Typography color="warning.main">You're already on the waitlist!</Typography>
-        )}
         {status === 'error' && (
-          <Typography color="error.main">Something went wrong. Try again.</Typography>
+          <Typography color="error.main">{errorMessage}</Typography>
         )}
       </Box>
     </div>
