@@ -66,6 +66,7 @@ const App = () => {
             color: 'white',
             textShadow: '0px 2px 6px rgba(0,0,0,0.6)',
             marginBottom: '1rem',
+            textAlign: 'center',
           }}
         >
           Try our product below, btw violet is so cool
@@ -75,6 +76,7 @@ const App = () => {
             color: 'white',
             fontSize: '2rem',
             textShadow: '0px 2px 6px rgba(0,0,0,0.6)',
+            textAlign: 'center',
           }}
         >
           ↓
