@@ -15,13 +15,9 @@ const App = () => {
     setStatus('loading');
 
     try {
-      const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+      const res = await fetch('http://127.0.0.1:5000/api/waitlist', {
         method: 'POST',
-        body: JSON.stringify({
-          title: 'foo',
-          body: 'bar',
-          userId: 1,
-        }),
+        body: JSON.stringify({ name, email }),
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
         },
