@@ -15,7 +15,7 @@ const App = () => {
     setStatus('loading');
 
     try {
-      const res = await fetch('http://127.0.0.1:5000/api/waitlist', {
+      const res = await fetch('https://brush-it-off.onrender.com/api/waitlist', {
         method: 'POST',
         body: JSON.stringify({ name, email }),
         headers: {
